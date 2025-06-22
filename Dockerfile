@@ -14,6 +14,9 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Mantém o container ativo esperando comandos
+CMD ["tail", "-f", "/dev/null"]
+
 # Diretório da app
 WORKDIR /app
 
