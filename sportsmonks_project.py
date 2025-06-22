@@ -5,8 +5,8 @@ from datetime import datetime
 from supabase import create_client, Client
 
 # Configurações
-SUPABASE_URL = "https://SEU_PROJETO_ID.supabase.co"
-SUPABASE_KEY = "sua_chave_anon_ou_service_role"
+SUPABASE_URL = "db.wlpbhvpsoymgacckfyny.supabase.co"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndscGJodnBzb3ltZ2FjY2tmeW55Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA1NDAyMzMsImV4cCI6MjA2NjExNjIzM30.-VnugrGaT_rehXPTy7P2TTQkl_Sh2Cqdc7OMaozkhU0"
 API_KEY = "4vYK7knP9N1sy4eASn0lluLzxuXDiIQWafJgtdjG64dmTjHqEdgHM962xESQ"
 LOG_FILE = "script.log"
 LEAGUE_ID = 1479
