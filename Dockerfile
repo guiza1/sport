@@ -1,7 +1,7 @@
 # Base image
 FROM python:3.11-slim
 
-# Instalar ferramentas e dependências nativas para psycopg2
+# Instalar ferramentas básicas e dependências nativas para psycopg2
 RUN apt-get update && apt-get install -y \
     vim \
     nano \
@@ -14,16 +14,13 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Mantém o container ativo esperando comandos
-CMD ["tail", "-f", "/dev/null"]
-
 # Diretório da app
 WORKDIR /app
 
 # Copiar o conteúdo da app
 COPY . .
 
-# Atualizar requirements para psycopg2-binary
+# Atualizar requirements para psycopg2-binary, caso esteja listado
 RUN sed -i 's/^psycopg2$/psycopg2-binary/' requirements.txt || true
 
 # Instalar dependências Python
@@ -38,5 +35,5 @@ ENV DB_USER="seu-usuario"
 ENV DB_PASSWORD="sua-senha"
 ENV DB_NAME="postgres"
 
-# Rodar o app
-CMD ["python", "on.py"]
+# Manter o container ativo esperando comandos
+CMD ["tail", "-f", "/dev/null"]
