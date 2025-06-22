@@ -5,7 +5,7 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Copiando o conteúdo da pasta sport para o container
-COPY sport/ .
+COPY . .
 
 # Instalando as dependências
 RUN pip install --no-cache-dir -r requirements.txt
