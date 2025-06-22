@@ -6,19 +6,23 @@ from supabase import create_client, Client
 # Configurações
 SUPABASE_URL = os.environ.get('SUPABASE_URL')
 SUPABASE_KEY = os.environ.get('SUPABASE_KEY')
-API_KEY = os.environ.get('API_KEY', '4vYK7knP9N1sy4eASn0lluLzxuXDiIQWafJgtdjG64dmTjHqEdgHM962xESQ')
+API_KEY = os.environ.get('API_KEY', 'sua-chave-sportmonks')
 LOG_FILE = 'script.log'
-LEAGUE_ID = 1479  # CONCACAF League
+LEAGUE_ID = 1479
 BASE_URL = 'https://api.sportmonks.com/v3/football'
 
-# Inicializando cliente supabase
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
-
+# Log helper
 def log_message(message: str) -> None:
     with open(LOG_FILE, 'a') as f:
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         f.write(f'{timestamp} - {message}\n')
     print(message)
+
+# Debug envs
+log_message(f"SUPABASE_URL: {SUPABASE_URL}")
+
+# Inicializando cliente Supabase
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 def get_fixtures() -> list:
     url = f"{BASE_URL}/fixtures?api_token={API_KEY}&leagues={LEAGUE_ID}&include=participants"
@@ -36,7 +40,6 @@ def insert_matches(matches: list) -> int:
         if len(participants) < 2:
             log_message(f"Warning: Missing participants for match {m.get('id')}. Skipping...")
             continue
-
         match_date = m.get('starting_at')
         home_team = participants[0].get('name')
         away_team = participants[1].get('name')
@@ -53,10 +56,14 @@ def insert_matches(matches: list) -> int:
     if not data_to_insert:
         return 0
 
-    # Insert into supabase
-    result = supabase.table('matches').insert(data_to_insert).execute()
-    log_message(f"Inserted {len(data_to_insert)} matches into supabase.")
-    return len(data_to_insert)
+    try:
+        result = supabase.table('matches').insert(data_to_insert).execute()
+        log_message(f"Supabase response: {result}")
+        log_message(f"Inserted {len(data_to_insert)} matches into supabase.")
+        return len(data_to_insert)
+    except Exception as e:
+        log_message(f"Error during insert: {e}")
+        return 0
 
 if __name__ == '__main__':
     try:
