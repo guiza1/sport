@@ -22,14 +22,15 @@ COPY . .
 # Instalar dependências Python
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Configurar cron
-RUN echo "0 */6 * * * python /app/sportsmonks_project.py >> /app/script.log 2>&1" > /etc/cron.d/schedule \
-    && chmod 0644 /etc/cron.d/schedule \
-    && crontab /etc/cron.d/schedule
 
 # Variáveis de ambiente que podes definir via EasyPanel
 ENV SUPABASE_URL="https://sua-url-do-supabase"
 ENV SUPABASE_KEY="sua-chave-do-supabase"
+ENV DB_HOST="aws-0-eu-north-1.pooler.supabase.com"
+ENV DB_PORT="5432"
+ENV DB_USER="seu-usuario"
+ENV DB_PASSWORD="sua-senha"
+ENV DB_NAME="postgres"
 
 # Criar o log
 RUN touch /app/script.log
